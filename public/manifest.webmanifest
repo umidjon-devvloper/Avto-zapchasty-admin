@@ -1,0 +1,39 @@
+{
+  "name": "Zapchasty — Avto ehtiyot qismlar bozori",
+  "short_name": "Zapchasty",
+  "description": "O'zbekistondagi avto ehtiyot qismlar onlayn bozori.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1e40af",
+  "lang": "uz",
+  "icons": [
+    {
+      "src": "/harf-logo-favicon-32px.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/harf-logo-favicon-64px.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "/harf-logo-header-large-96px.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/harf-logo-header-xl-128px.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/harf-logo-social-512px.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
