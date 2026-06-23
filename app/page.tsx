@@ -10,6 +10,7 @@ import { CategoryCard } from '@/components/CategoryCard';
 import { ListingCard, ListingCardSkeleton } from '@/components/ListingCard';
 import { Reveal } from '@/components/Reveal';
 
+
 export default function HomePage() {
   const t = useT();
   const { data: categories = [] } = useQuery({ queryKey: ['categories'], queryFn: api.categories });
