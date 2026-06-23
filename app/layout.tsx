@@ -55,18 +55,18 @@ export const metadata: Metadata = {
       "O'zbekistondagi avto ehtiyot qismlar onlayn bozori. OEM raqam, brend va model bo'yicha tez toping.",
     images: [
       {
-        url: '/harf-logo-social-512px.png',
-        width: 512,
-        height: 512,
-        alt: 'Zapchasty logo',
+        url: 'https://7harivf5tf.ufs.sh/f/z3vBnfCC3XgsdIdVUBXRULnVCO8oXaA6qsfzwbScd3kKpuYe',
+        width: 1200,
+        height: 630,
+        alt: 'Zapchasty — Avto ehtiyot qismlar bozori',
       },
     ],
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'Zapchasty — Avto ehtiyot qismlar bozori',
     description: "O'zbekistondagi avto ehtiyot qismlar onlayn bozori.",
-    images: ['/harf-logo-social-512px.png'],
+    images: ['https://7harivf5tf.ufs.sh/f/z3vBnfCC3XgsdIdVUBXRULnVCO8oXaA6qsfzwbScd3kKpuYe'],
   },
 };
 
