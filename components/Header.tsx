@@ -21,7 +21,7 @@ function Logo() {
         width={160}
         height={150}
         priority
-        className="h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105 sm:h-12"
+        className="h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105 sm:h-16"
       />
     </Link>
   );
@@ -44,7 +44,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-bg/80 shadow-header backdrop-blur-xl supports-[backdrop-filter]:bg-bg/70">
       <div className="container-page">
-        <div className="flex h-16 items-center gap-4">
+        <div className="flex h-20 items-center gap-4">
           <Logo />
 
           <div className="hidden flex-1 md:block">
