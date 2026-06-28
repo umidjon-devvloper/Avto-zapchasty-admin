@@ -18,15 +18,14 @@ function Logo() {
       <Image
         src="/logo.png"
         alt="Zapchasty"
-        width={260}
+        width={160}
         height={150}
         priority
-        className="h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105 sm:h-16"
+        className="h-40 w-40 object-contain transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-3"
       />
     </Link>
   );
 }
-
 export function Header() {
   const { user, accessToken } = useAuth();
   const router = useRouter();
@@ -44,7 +43,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-bg/80 shadow-header backdrop-blur-xl supports-[backdrop-filter]:bg-bg/70">
       <div className="container-page">
-        <div className="flex items-center gap-4">
+        <div className="flex h-16 items-center gap-4">
           <Logo />
 
           <div className="hidden flex-1 md:block">
