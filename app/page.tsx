@@ -95,21 +95,23 @@ export default function HomePage() {
       </section>
 
       {/* KATEGORIYALAR */}
-      <section id="categories" className="container-page py-12">
-        <SectionHead title={t.home.categories} href="/search" linkLabel={t.home.viewAll} />
-        {categories.length === 0 ? (
-          <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
-            {Array.from({ length: 12 }).map((_, i) => (
-              <div key={i} className="img-skeleton h-28 animate-pulse rounded-lg" />
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
-            {categories.map((c, i) => (
-              <CategoryCard key={c._id} category={c} index={i} />
-            ))}
-          </div>
-        )}
+      <section id="categories" className="border-y border-line bg-surface/60">
+        <div className="container-page py-12">
+          <SectionHead title={t.home.categories} href="/search" linkLabel={t.home.viewAll} />
+          {categories.length === 0 ? (
+            <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
+              {Array.from({ length: 12 }).map((_, i) => (
+                <div key={i} className="img-skeleton h-28 animate-pulse rounded-2xl" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
+              {categories.map((c, i) => (
+                <CategoryCard key={c._id} category={c} index={i} />
+              ))}
+            </div>
+          )}
+        </div>
       </section>
 
       {/* MASHHUR BRENDLAR */}

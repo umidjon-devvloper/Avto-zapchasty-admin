@@ -53,7 +53,37 @@ export function Footer() {
           />
         </div>
 
-        <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-line pt-6 text-sm text-muted sm:flex-row">
+        <div className="mt-10 flex flex-col items-center gap-3 border-t border-line pt-8">
+          <p className="text-xs font-semibold uppercase tracking-wider text-muted">{t.footer.getApp}</p>
+          <div className="flex items-center gap-3">
+            <div className="group relative opacity-70 grayscale transition-all hover:opacity-100 hover:grayscale-0">
+              <Image
+                src="/download-on-the-app-store-apple-logo-svgrepo-com.svg"
+                alt="App Store"
+                width={127}
+                height={40}
+                className="h-10 w-auto"
+              />
+              <span className="pointer-events-none absolute -bottom-2 left-1/2 -translate-x-1/2 translate-y-full whitespace-nowrap rounded-full bg-navy-800 px-2 py-0.5 text-[10px] font-bold text-white opacity-0 shadow-card transition-opacity group-hover:opacity-100">
+                {t.footer.comingSoon}
+              </span>
+            </div>
+            <div className="group relative opacity-70 grayscale transition-all hover:opacity-100 hover:grayscale-0">
+              <Image
+                src="/google-play-badge.png"
+                alt="Google Play"
+                width={133}
+                height={40}
+                className="h-10 w-auto"
+              />
+              <span className="pointer-events-none absolute -bottom-2 left-1/2 -translate-x-1/2 translate-y-full whitespace-nowrap rounded-full bg-navy-800 px-2 py-0.5 text-[10px] font-bold text-white opacity-0 shadow-card transition-opacity group-hover:opacity-100">
+                {t.footer.comingSoon}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 flex flex-col items-center justify-between gap-3 border-t border-line pt-6 text-sm text-muted sm:flex-row">
           <p>© {new Date().getFullYear()} Zapchasty. {t.footer.rights}</p>
           <p>{t.footer.country}</p>
         </div>

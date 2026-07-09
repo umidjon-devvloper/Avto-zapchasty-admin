@@ -40,6 +40,8 @@ const uz = {
     privacy: 'Maxfiylik',
     rights: 'Barcha huquqlar himoyalangan.',
     country: "O'zbekiston",
+    getApp: 'Ilovamizni yuklab oling',
+    comingSoon: 'Tez orada',
   },
   home: {
     badge: "O'zbekistondagi avto ehtiyot qismlar bozori",
@@ -259,6 +261,8 @@ const ru: typeof uz = {
     privacy: 'Конфиденциальность',
     rights: 'Все права защищены.',
     country: 'Узбекистан',
+    getApp: 'Скачайте наше приложение',
+    comingSoon: 'Скоро',
   },
   home: {
     badge: 'Маркетплейс автозапчастей в Узбекистане',
