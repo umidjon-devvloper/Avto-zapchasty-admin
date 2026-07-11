@@ -23,6 +23,7 @@ export function AuthForm({ mode }: { mode: 'login' | 'register' }) {
   const [name, setName] = useState('');
   const [busy, setBusy] = useState(false);
 
+  
   const next = sp.get('next') || '/';
   const canSubmit = phone.replace(/\D/g, '').length >= 7 && password.length >= 4;
 
