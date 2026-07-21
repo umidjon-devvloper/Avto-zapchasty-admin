@@ -73,7 +73,7 @@ export interface Listing {
     _id: string;
     name: string;
     phone: string;
-    sellerProfile?: { shopName: string; city: string; verified?: boolean };
+    sellerProfile?: { shopName: string; city: string; verified?: boolean; avatar?: string };
   };
   fitment?: {
     brandId?: { _id: string; name: string } | string;

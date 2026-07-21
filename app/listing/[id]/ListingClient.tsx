@@ -165,8 +165,15 @@ export function ListingClient({ id }: { id: string }) {
             <div className="card mt-4 p-5">
               <p className="mb-3 text-xs font-bold uppercase tracking-wide text-muted">{t.listing.seller}</p>
               <div className="flex items-center gap-3">
-                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-amber-50 text-amber-700">
-                  {seller.sellerProfile?.shopName ? <Store size={22} /> : <span className="text-lg font-bold">{(seller.name || 'S')[0].toUpperCase()}</span>}
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-amber-50 text-amber-700">
+                  {seller.sellerProfile?.avatar ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={resolveImage(seller.sellerProfile.avatar)} alt="" className="h-full w-full object-cover" />
+                  ) : seller.sellerProfile?.shopName ? (
+                    <Store size={22} />
+                  ) : (
+                    <span className="text-lg font-bold">{(seller.name || 'S')[0].toUpperCase()}</span>
+                  )}
                 </span>
                 <div className="min-w-0">
                   <p className="flex items-center gap-1.5 font-bold text-ink">

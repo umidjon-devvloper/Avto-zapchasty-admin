@@ -103,7 +103,7 @@ export const api = {
   register: (phone: string, password: string, name?: string) =>
     http.post<AuthResponse>('/auth/register', { phone, password, name }).then((r) => r.data),
   me: () => http.get<{ user: User }>('/auth/me').then((r) => r.data.user),
-  updateProfile: (body: { name?: string; shopName?: string; city?: string }) =>
+  updateProfile: (body: { name?: string; shopName?: string; city?: string; avatar?: string }) =>
     http.patch<{ user: User }>('/auth/me', body).then((r) => r.data.user),
   logout: (refreshToken: string) => http.post('/auth/logout', { refreshToken }).then((r) => r.data),
 
