@@ -9,7 +9,7 @@ import { api, errMessage, type CreateListingBody } from '@/lib/api';
 import { auth } from '@/lib/auth';
 import { resolveImage, cn } from '@/lib/utils';
 import { getCoords } from '@/lib/geo';
-import { useT, useLocalize } from '@/lib/i18n';
+import { useT, useLocalize, useLocalizePart } from '@/lib/i18n';
 import type { Condition } from '@/lib/types';
 import { RequireAuth } from '@/components/RequireAuth';
 import { Input, Textarea, Select } from '@/components/ui/Input';
@@ -31,6 +31,7 @@ function SellForm() {
   const toast = useToast();
   const t = useT();
   const lz = useLocalize();
+  const lzp = useLocalizePart();
   const fileRef = useRef<HTMLInputElement>(null);
 
   const [photos, setPhotos] = useState<string[]>([]);
@@ -178,7 +179,7 @@ function SellForm() {
                 placeholder={t.sell.select}
                 value={partTypeId}
                 onChange={(e) => setPartTypeId(e.target.value)}
-                options={partTypes.map((p) => ({ value: p._id, label: p.name }))}
+                options={partTypes.map((p) => ({ value: p._id, label: lzp(p) }))}
               />
             )}
             <Input label={t.sell.titleReq} value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t.sell.titlePlaceholder} />

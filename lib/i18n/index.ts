@@ -24,3 +24,13 @@ export function useLocalize() {
     return name.uz || name.ru || name.en || '';
   };
 }
+
+// Detal turi (partType) nomini lokalizatsiya qiladi: uz -> nameUz (bo'lmasa name), ru -> name
+export function useLocalizePart() {
+  const [locale] = useLocale();
+  return (pt?: { name: string; nameUz?: string } | null): string => {
+    if (!pt) return '';
+    if (locale === 'uz') return pt.nameUz || pt.name;
+    return pt.name;
+  };
+}

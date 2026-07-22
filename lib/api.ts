@@ -67,6 +67,7 @@ export function errMessage(e: unknown): string {
 
 export interface SearchParams {
   q?: string;
+  sellerId?: string;
   categoryId?: string;
   partTypeId?: string;
   brandId?: string;

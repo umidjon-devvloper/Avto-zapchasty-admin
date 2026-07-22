@@ -18,6 +18,7 @@ export interface PartCategory {
 export interface PartType {
   _id: string;
   name: string;
+  nameUz?: string;
   slug: string;
   categoryId: string;
   subcategory: string | null;
@@ -68,7 +69,7 @@ export interface Listing {
   favoritesCount: number;
   isFavorite?: boolean;
   createdAt: string;
-  partTypeId?: { _id: string; name: string; slug: string };
+  partTypeId?: { _id: string; name: string; nameUz?: string; slug: string };
   categoryId?: { _id: string; name: I18nName; slug: string };
   sellerId?: {
     _id: string;

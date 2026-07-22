@@ -11,8 +11,9 @@ import {
 import { api, errMessage } from '@/lib/api';
 import { auth } from '@/lib/auth';
 import { formatPrice, resolveImage, timeAgo, formatPhone } from '@/lib/utils';
-import { useT, useLocalize } from '@/lib/i18n';
+import { useT, useLocalize, useLocalizePart } from '@/lib/i18n';
 import { FavoriteButton } from '@/components/FavoriteButton';
+import { ListingCard } from '@/components/ListingCard';
 import { Badge, PageLoader, EmptyState } from '@/components/ui/Misc';
 import { Button } from '@/components/ui/Button';
 import { useToast } from '@/components/Toast';
@@ -22,6 +23,7 @@ export function ListingClient({ id }: { id: string }) {
   const toast = useToast();
   const t = useT();
   const lz = useLocalize();
+  const lzp = useLocalizePart();
   const [showPhone, setShowPhone] = useState(false);
   const [chatBusy, setChatBusy] = useState(false);
 
@@ -30,6 +32,15 @@ export function ListingClient({ id }: { id: string }) {
     queryFn: () => api.listing(id),
     enabled: !!id,
   });
+
+  // Sotuvchining shu e'londan boshqa faol e'lonlari
+  const sellerId = listing && typeof listing.sellerId === 'object' ? listing.sellerId?._id : undefined;
+  const { data: sellerListings } = useQuery({
+    queryKey: ['seller-other', sellerId, id],
+    queryFn: () => api.search({ sellerId, sort: 'newest', limit: 12 }),
+    enabled: !!sellerId,
+  });
+  const otherListings = (sellerListings?.items ?? []).filter((l) => l._id !== id).slice(0, 10);
 
   if (isLoading) return <PageLoader />;
   if (isError || !listing)
@@ -88,7 +99,7 @@ export function ListingClient({ id }: { id: string }) {
             <dl className="overflow-hidden rounded-lg border border-line">
               <Row label={t.listing.condition} value={t.conditions[listing.condition] || listing.condition} />
               {listing.manufacturer && <Row label={t.listing.manufacturer} value={listing.manufacturer} />}
-              {listing.partTypeId?.name && <Row label={t.listing.partType} value={listing.partTypeId.name} />}
+              {listing.partTypeId?.name && <Row label={t.listing.partType} value={lzp(listing.partTypeId)} />}
               {listing.categoryId && <Row label={t.listing.category} value={lz(listing.categoryId.name)} />}
               {(brandName || modelName) && (
                 <Row label={t.listing.fitment} value={[brandName, modelName].filter(Boolean).join(' ')} />
@@ -192,6 +203,25 @@ export function ListingClient({ id }: { id: string }) {
           </div>
         </aside>
       </div>
+
+      {/* Sotuvchining boshqa e'lonlari */}
+      {otherListings.length > 0 && (
+        <section className="mt-10">
+          <div className="mb-5 flex items-center justify-between">
+            <h2 className="text-xl font-extrabold tracking-tight text-ink">{t.listing.sellerOther}</h2>
+            {sellerId && (
+              <Link href={`/search?sellerId=${sellerId}`} className="text-sm font-semibold text-amber-600 hover:text-amber-700">
+                {t.home.viewAll}
+              </Link>
+            )}
+          </div>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+            {otherListings.map((l, i) => (
+              <ListingCard key={l._id} listing={l} index={i} />
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

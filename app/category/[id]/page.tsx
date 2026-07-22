@@ -11,7 +11,7 @@ import {
   Radio, Scan, Speaker, Bolt, Sparkles, ChevronRight, ArrowLeft, type LucideIcon,
 } from 'lucide-react';
 import { api } from '@/lib/api';
-import { useLocalize } from '@/lib/i18n';
+import { useLocalize, useLocalizePart } from '@/lib/i18n';
 import type { PartCategory, PartType } from '@/lib/types';
 
 const ICONS: Record<string, LucideIcon> = {
@@ -83,6 +83,7 @@ function CategoryContent() {
   const parentName = sp.get('parentName') || '';
   const parentId = sp.get('parentId') || '';
   const lz = useLocalize();
+  const lzp = useLocalizePart();
   const HeroIcon = ICONS[slug] || Wrench;
 
   const { data: subs, isLoading: subsLoading } = useQuery({
@@ -207,7 +208,7 @@ function CategoryContent() {
                     >
                       <Bolt size={17} strokeWidth={2} />
                     </span>
-                    <span className="flex-1 text-sm font-semibold text-ink">{pt.name}</span>
+                    <span className="flex-1 text-sm font-semibold text-ink">{lzp(pt)}</span>
                     <ChevronRight
                       size={15}
                       className="text-muted transition-transform group-hover:translate-x-0.5"
