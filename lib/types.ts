@@ -62,6 +62,7 @@ export interface Listing {
   city: string;
   delivery: boolean;
   phone: string;
+  distanceKm?: number; // /search/nearby javobida keladi
   status: ListingStatus;
   views: number;
   favoritesCount: number;

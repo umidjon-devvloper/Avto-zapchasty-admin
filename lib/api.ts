@@ -94,6 +94,8 @@ export interface CreateListingBody {
   city?: string;
   delivery?: boolean;
   phone?: string;
+  lat?: number;
+  lng?: number;
 }
 
 export const api = {
@@ -129,6 +131,10 @@ export const api = {
   // ===== Qidiruv =====
   search: (params: SearchParams) =>
     http.get<Paginated<Listing>>('/search', { params }).then((r) => r.data),
+  nearby: (lat: number, lng: number, limit = 10) =>
+    http
+      .get<{ items: Listing[]; tier: 'near' | 'city' | 'none' }>('/search/nearby', { params: { lat, lng, limit } })
+      .then((r) => r.data),
   suggest: (q: string) =>
     http.get<{ items: Suggestion[] }>('/search/suggest', { params: { q } }).then((r) => r.data.items),
 

@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ArrowRight, ShieldCheck, Truck, Search as SearchIcon, Tag, PackageOpen } from 'lucide-react';
 import { api } from '@/lib/api';
 import { useT } from '@/lib/i18n';
+import { useGeo } from '@/lib/geo';
 import { CategoryCard } from '@/components/CategoryCard';
 import { ListingCard, ListingCardSkeleton } from '@/components/ListingCard';
 
@@ -17,6 +18,15 @@ export default function HomePage() {
     queryKey: ['recent-listings'],
     queryFn: () => api.search({ sort: 'newest', limit: 10 }),
   });
+
+  // Yaqin-atrofdagi e'lonlar — brauzer joylashuv ruxsatini bergan bo'lsa (mehmonlar ham)
+  const coords = useGeo();
+  const { data: nearby } = useQuery({
+    queryKey: ['nearby-listings', coords?.lat, coords?.lng],
+    queryFn: () => api.nearby(coords!.lat, coords!.lng, 10),
+    enabled: !!coords,
+  });
+  const nearbyItems = nearby?.items ?? [];
 
   return (
     <>
@@ -127,6 +137,18 @@ export default function HomePage() {
               >
                 {b.name}
               </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* SIZGA YAQIN */}
+      {nearbyItems.length > 0 && (
+        <section className="container-page pt-12">
+          <SectionHead title={nearby?.tier === 'city' ? t.home.nearbyCity : t.home.nearby} />
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+            {nearbyItems.map((l, i) => (
+              <ListingCard key={l._id} listing={l} index={i} />
             ))}
           </div>
         </section>

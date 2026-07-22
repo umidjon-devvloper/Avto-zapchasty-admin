@@ -8,6 +8,7 @@ import { ImagePlus, X, Loader2 } from 'lucide-react';
 import { api, errMessage, type CreateListingBody } from '@/lib/api';
 import { auth } from '@/lib/auth';
 import { resolveImage, cn } from '@/lib/utils';
+import { getCoords } from '@/lib/geo';
 import { useT, useLocalize } from '@/lib/i18n';
 import type { Condition } from '@/lib/types';
 import { RequireAuth } from '@/components/RequireAuth';
@@ -92,6 +93,8 @@ function SellForm() {
     }
     setBusy(true);
     try {
+      // Joylashuv (ruxsat berilgan bo'lsa) — "yaqin-atrofdagi e'lonlar" uchun
+      const coords = await getCoords();
       const body: CreateListingBody = {
         partTypeId,
         title: title.trim(),
@@ -106,6 +109,7 @@ function SellForm() {
         city,
         delivery,
         phone: phone.trim(),
+        ...(coords ? { lat: coords.lat, lng: coords.lng } : {}),
       };
       await api.createListing(body);
       toast.show(t.sell.posted, 'success');

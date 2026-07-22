@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { MapPin, ImageOff, Truck } from 'lucide-react';
 import type { Listing } from '@/lib/types';
 import { formatPrice, resolveImage, timeAgo } from '@/lib/utils';
+import { formatDistance } from '@/lib/geo';
 import { useT } from '@/lib/i18n';
 import { FavoriteButton } from './FavoriteButton';
 import { Badge } from './ui/Misc';
@@ -53,12 +54,17 @@ export function ListingCard({ listing, index = 0 }: { listing: Listing; index?: 
         </p>
 
         <div className="mt-auto flex items-center gap-2 pt-2.5 text-xs text-muted">
-          {city && (
+          {listing.distanceKm != null ? (
+            <span className="flex items-center gap-1 truncate font-semibold text-success">
+              <MapPin size={13} />
+              {formatDistance(listing.distanceKm)}
+            </span>
+          ) : city ? (
             <span className="flex items-center gap-1 truncate">
               <MapPin size={13} />
               {city}
             </span>
-          )}
+          ) : null}
           {listing.delivery && (
             <span className="flex items-center gap-1 text-success">
               <Truck size={13} />
