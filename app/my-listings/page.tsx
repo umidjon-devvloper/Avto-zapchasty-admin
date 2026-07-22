@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Package, Eye, Heart, Trash2, CheckCircle2, RotateCcw, ImageOff, Plus } from 'lucide-react';
+import { Package, Eye, Heart, Trash2, CheckCircle2, RotateCcw, ImageOff, Plus, Pencil } from 'lucide-react';
 import { api, errMessage } from '@/lib/api';
 import { formatPrice, resolveImage, timeAgo } from '@/lib/utils';
 import { useT, type Dict } from '@/lib/i18n';
@@ -148,6 +148,11 @@ function MyRow({
           <Button size="sm" variant="outline" onClick={onToggleSold} disabled={busy}>
             {sold ? <><RotateCcw size={14} /> {t.myListings.activate}</> : <><CheckCircle2 size={14} /> {t.myListings.markSold}</>}
           </Button>
+          <Link href={`/sell?edit=${listing._id}`}>
+            <Button size="sm" variant="outline">
+              <Pencil size={14} /> {t.myListings.edit}
+            </Button>
+          </Link>
           <Button size="sm" variant="ghost" className="text-danger hover:bg-danger/10" onClick={onDelete} disabled={busy}>
             <Trash2 size={14} /> {t.myListings.delete}
           </Button>

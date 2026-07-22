@@ -1,7 +1,7 @@
 'use client';
 
-import { useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { Suspense, useEffect, useRef, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
 import { ImagePlus, X, Loader2 } from 'lucide-react';
@@ -21,13 +21,18 @@ const CONDITION_KEYS: Condition[] = ['new', 'used', 'contract', 'original', 'dup
 export default function SellPage() {
   return (
     <RequireAuth>
-      <SellForm />
+      <Suspense fallback={null}>
+        <SellForm />
+      </Suspense>
     </RequireAuth>
   );
 }
 
 function SellForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const editId = searchParams.get('edit') || '';
+  const isEdit = !!editId;
   const toast = useToast();
   const t = useT();
   const lz = useLocalize();
@@ -66,6 +71,34 @@ function SellForm() {
   });
   const { data: cities = [] } = useQuery({ queryKey: ['cities'], queryFn: api.cities });
 
+  // Tahrirlash rejimi — mavjud e'lonni yuklab, formani to'ldirish
+  const { data: editListing } = useQuery({
+    queryKey: ['edit-listing', editId],
+    queryFn: () => api.listing(editId),
+    enabled: isEdit,
+  });
+  useEffect(() => {
+    if (!editListing) return;
+    const l = editListing;
+    setPhotos(l.photos ?? []);
+    setPartTypeId(typeof l.partTypeId === 'object' ? l.partTypeId?._id ?? '' : (l.partTypeId ?? ''));
+    setCategoryId(typeof l.categoryId === 'object' ? l.categoryId?._id ?? '' : (l.categoryId ?? ''));
+    setTitle(l.title ?? '');
+    setCondition((l.condition as Condition) ?? 'used');
+    setPrice(l.price?.amount != null ? String(l.price.amount) : '');
+    setNegotiable(!!l.negotiable);
+    setManufacturer(l.manufacturer ?? '');
+    setOem((l.oemNumbers ?? []).join(', '));
+    const b = l.fitment?.brandId;
+    const m = l.fitment?.modelId;
+    setBrandId(typeof b === 'object' ? b?._id ?? '' : (b ?? ''));
+    setModelId(typeof m === 'object' ? m?._id ?? '' : (m ?? ''));
+    setCity(l.city ?? '');
+    setDelivery(!!l.delivery);
+    if (l.phone) setPhone(l.phone);
+    setDescription(l.description ?? '');
+  }, [editListing]);
+
   const onPick = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
@@ -94,8 +127,6 @@ function SellForm() {
     }
     setBusy(true);
     try {
-      // Joylashuv (ruxsat berilgan bo'lsa) — "yaqin-atrofdagi e'lonlar" uchun
-      const coords = await getCoords();
       const body: CreateListingBody = {
         partTypeId,
         title: title.trim(),
@@ -110,10 +141,17 @@ function SellForm() {
         city,
         delivery,
         phone: phone.trim(),
-        ...(coords ? { lat: coords.lat, lng: coords.lng } : {}),
       };
-      await api.createListing(body);
-      toast.show(t.sell.posted, 'success');
+      if (isEdit) {
+        await api.updateListing(editId, body);
+        toast.show(t.myListings.updated, 'success');
+      } else {
+        // Joylashuv (ruxsat berilgan bo'lsa) — "yaqin-atrofdagi e'lonlar" uchun
+        const coords = await getCoords();
+        if (coords) { body.lat = coords.lat; body.lng = coords.lng; }
+        await api.createListing(body);
+        toast.show(t.sell.posted, 'success');
+      }
       router.push('/my-listings');
     } catch (err) {
       toast.show(errMessage(err), 'error');
@@ -124,7 +162,7 @@ function SellForm() {
 
   return (
     <div className="container-page py-6">
-      <h1 className="mb-6 text-2xl font-extrabold text-ink">{t.sell.title}</h1>
+      <h1 className="mb-6 text-2xl font-extrabold text-ink">{isEdit ? t.myListings.editTitle : t.sell.title}</h1>
 
       <div className="mx-auto max-w-2xl space-y-6">
         {/* Rasmlar */}
@@ -283,7 +321,7 @@ function SellForm() {
 
         <div className="flex items-center gap-3">
           <Button size="lg" onClick={submit} loading={busy} disabled={!valid}>
-            {t.sell.submit}
+            {isEdit ? t.myListings.saveEdit : t.sell.submit}
           </Button>
           {!valid && <span className="text-sm text-muted">{t.sell.fillRequired}</span>}
         </div>
