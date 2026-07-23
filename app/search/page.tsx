@@ -248,7 +248,7 @@ function Filters({
         placeholder={t.common.all}
         value={params.city || ''}
         onChange={(e) => setParam({ city: e.target.value })}
-        options={cities.map((c) => ({ value: lz(c.name), label: lz(c.name) })).sort((a, b) => a.label.localeCompare(b.label))}
+        options={cities.map((c) => ({ value: c.name.uz ?? "", label: lz(c.name) })).sort((a, b) => a.label.localeCompare(b.label))}
       />
 
       <div>
