@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
 import {
-  MapPin, Eye, Truck, Phone, MessageCircle, ShieldCheck, Store, ChevronLeft, ImageOff, Tag,
+  MapPin, Eye, Truck, Phone, MessageCircle, ShieldCheck, Store, ChevronLeft, ImageOff, Tag, Share2,
 } from 'lucide-react';
 import { api, errMessage } from '@/lib/api';
 import { auth } from '@/lib/auth';
@@ -77,6 +77,20 @@ export function ListingClient({ id }: { id: string }) {
     }
   };
 
+  const onShare = async () => {
+    const url = typeof window !== 'undefined' ? window.location.href : '';
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: listing.title, url });
+      } else {
+        await navigator.clipboard.writeText(url);
+        toast.show(t.listing.linkCopied, 'success');
+      }
+    } catch {
+      /* foydalanuvchi bekor qildi */
+    }
+  };
+
   return (
     <div className="container-page py-6">
       <button onClick={() => router.back()} className="group mb-4 flex items-center gap-1 text-sm font-medium text-muted transition-colors hover:text-ink">
@@ -127,7 +141,16 @@ export function ListingClient({ id }: { id: string }) {
           <div className="card p-5">
             <div className="flex items-start justify-between gap-3">
               <h1 className="text-xl font-extrabold leading-snug text-ink">{listing.title}</h1>
-              <FavoriteButton id={listing._id} initial={listing.isFavorite} size={22} className="h-10 w-10 border border-line" />
+              <div className="flex shrink-0 gap-2">
+                <button
+                  onClick={onShare}
+                  aria-label={t.listing.share}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-line text-ink transition-colors hover:border-amber/50 hover:bg-amber-50 hover:text-amber-700"
+                >
+                  <Share2 size={19} />
+                </button>
+                <FavoriteButton id={listing._id} initial={listing.isFavorite} size={22} className="h-10 w-10 border border-line" />
+              </div>
             </div>
 
             <div className="mt-3 flex items-end gap-2">

@@ -209,7 +209,7 @@ function SellForm() {
                 setCategoryId(e.target.value);
                 setPartTypeId('');
               }}
-              options={categories.map((c) => ({ value: c._id, label: lz(c.name) }))}
+              options={categories.map((c) => ({ value: c._id, label: lz(c.name) })).sort((a, b) => a.label.localeCompare(b.label))}
             />
             {categoryId && (
               <Select
@@ -278,7 +278,7 @@ function SellForm() {
                   setBrandId(e.target.value);
                   setModelId('');
                 }}
-                options={brands.map((b) => ({ value: b._id, label: b.name }))}
+                options={brands.map((b) => ({ value: b._id, label: b.name })).sort((a, b) => a.label.localeCompare(b.label))}
               />
               {brandId && (
                 <Select
@@ -309,7 +309,7 @@ function SellForm() {
               placeholder={t.sell.select}
               value={city}
               onChange={(e) => setCity(e.target.value)}
-              options={cities.map((c) => ({ value: lz(c.name), label: lz(c.name) }))}
+              options={cities.map((c) => ({ value: lz(c.name), label: lz(c.name) })).sort((a, b) => a.label.localeCompare(b.label))}
             />
             <Input label={t.sell.phone} type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+998..." />
             <label className="flex cursor-pointer items-center gap-2.5">

@@ -214,7 +214,7 @@ function Filters({
         placeholder={t.common.all}
         value={params.categoryId || ''}
         onChange={(e) => setParam({ categoryId: e.target.value })}
-        options={categories.map((c) => ({ value: c._id, label: lz(c.name) }))}
+        options={categories.map((c) => ({ value: c._id, label: lz(c.name) })).sort((a, b) => a.label.localeCompare(b.label))}
       />
 
       <Select
@@ -222,7 +222,7 @@ function Filters({
         placeholder={t.common.all}
         value={params.brandId || ''}
         onChange={(e) => setParam({ brandId: e.target.value, modelId: undefined })}
-        options={brands.map((b) => ({ value: b._id, label: b.name }))}
+        options={brands.map((b) => ({ value: b._id, label: b.name })).sort((a, b) => a.label.localeCompare(b.label))}
       />
 
       {params.brandId && (
@@ -248,7 +248,7 @@ function Filters({
         placeholder={t.common.all}
         value={params.city || ''}
         onChange={(e) => setParam({ city: e.target.value })}
-        options={cities.map((c) => ({ value: lz(c.name), label: lz(c.name) }))}
+        options={cities.map((c) => ({ value: lz(c.name), label: lz(c.name) })).sort((a, b) => a.label.localeCompare(b.label))}
       />
 
       <div>
